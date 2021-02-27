@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  height: 100vh;
+  background: wheat;
+  flex-direction: column;
+  position: relative;
+}
+
+.user-list-container {
+  height: 100%;
+  overflow: auto;
+  height: calc(100%-80px);
+}
+
+.myinfo-item {
+  height: 64px;
+  display: flex;
+  background: chocolate;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  align-items: center;
+  border-bottom: 2px solid darkslateblue;
+}
+
+.profile {
+  height: 3rem;
+  width: 3rem;
+  background: darkslategrey;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 3rem;
+  color: aliceblue;
+}
+
+.id {
+  flex: 1 1 auto;
+  text-align: left;
+  padding: 0 16px;
+}
+
+.status {
+  width: 5rem;
+  height: 1.5rem;
+  padding: 0 8px;
+  border-radius: 12px;
+  border: navy 1px solid;
+}
+
+.myinfo-item {
+  height: 64px;
+  display: flex;
+  background: chocolate;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  align-items: center;
+  border-bottom: 2px solid darkslateblue;
+}
+
+.friends-item {
+  height: 64px;
+  display: flex;
+  background: chocolate;
+  flex: 1 1 auto;
+  justify-content: space-between;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  align-items: center;
+  border-bottom: 2px solid darkslateblue;
+}

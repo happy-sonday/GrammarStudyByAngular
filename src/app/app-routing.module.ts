@@ -13,6 +13,13 @@ const routes: Routes = [
     loadChildren: () => import('./ts/ts.module').then((m) => m.TsModule),
   },
   {
+    path: 'ng',
+    loadChildren: () =>
+      import('./ng/component-routing.module').then(
+        (m) => m.ComponentRoutingModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'js',
   },

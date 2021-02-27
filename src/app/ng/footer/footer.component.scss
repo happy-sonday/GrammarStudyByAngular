@@ -1,0 +1,21 @@
+footer {
+  //fixed 일경우 레이아웃에 떠있는 느낌으로 스크롤이 움직일때 같이 움직인다.
+
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+
+  height: 40px;
+  background: black;
+  border-top: 2px solid lightcoral;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  * {
+    flex: 1 1 auto;
+    text-align: center;
+    border-style: dashed solid;
+    height: 100%;
+  }
+}

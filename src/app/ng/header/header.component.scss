@@ -1,0 +1,16 @@
+.header-container {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  background: cornflowerblue;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 8px 16px;
+
+  * {
+    flex: 1 1 auto;
+    text-align: center;
+    border-style: dashed solid;
+    height: 100%;
+  }
+}
