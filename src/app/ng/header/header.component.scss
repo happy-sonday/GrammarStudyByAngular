@@ -7,10 +7,18 @@
   box-sizing: border-box;
   padding: 8px 16px;
 
-  * {
+  .header-icon-left {
+    flex: 1 1 auto;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  *:not(.header-icon-left) {
     flex: 1 1 auto;
     text-align: center;
-    border-style: dashed solid;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
