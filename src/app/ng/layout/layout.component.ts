@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { EmailValidator } from '@angular/forms';
+import { TimeoutError } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  isEmpty = false;
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  onType(email: string): void {
+    if (email) {
+      this.isEmpty = true;
+    }
   }
-
 }

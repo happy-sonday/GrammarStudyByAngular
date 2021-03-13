@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  width: 100px;
+  border: 1px solid red;
+}
+
+//폭 고정
+.product-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  padding-right: 37px;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "noto";
+  margin-bottom: 11px;
+  border: 1px solid blueviolet;
+
+  width: 360px;
+}
+
+//반응형
+.product-name-res {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  padding-right: 37px;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "noto";
+  margin-bottom: 11px;
+  border: 1px solid darkcyan;
+}
+
+.product-name-pipe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  padding-right: 37px;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: "noto";
+  margin-bottom: 11px;
+  border: 1px solid darkgoldenrod;
+}

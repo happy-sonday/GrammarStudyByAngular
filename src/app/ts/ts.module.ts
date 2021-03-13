@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TsRoutingModule } from './ts-routing.module';
 import { TsComponent } from './ts.component';
-
+import { LengthPipeComponent } from './length-pipe/length-pipe.component';
+import { LengthPipePipe } from './length-pipe/length-pipe.pipe';
+import { TsRoutingModule } from './length-pipe/ts-routing.module';
 
 @NgModule({
-  declarations: [TsComponent],
-  imports: [
-    CommonModule,
-    TsRoutingModule
-  ]
+  declarations: [TsComponent, LengthPipeComponent, LengthPipePipe],
+  imports: [CommonModule, TsRoutingModule],
 })
-export class TsModule { }
+export class TsModule {}
