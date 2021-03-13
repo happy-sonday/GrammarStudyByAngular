@@ -4,10 +4,20 @@ import { CommonModule } from '@angular/common';
 import { TsComponent } from './ts.component';
 import { LengthPipeComponent } from './length-pipe/length-pipe.component';
 import { LengthPipePipe } from './length-pipe/length-pipe.pipe';
-import { TsRoutingModule } from './length-pipe/ts-routing.module';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+import { TsRoutingModule } from './ts-routing.module';
+import { SwipeComponent } from './swipe/swipe.component';
+import { HammerModule } from '@angular/platform-browser';
 
 @NgModule({
-  declarations: [TsComponent, LengthPipeComponent, LengthPipePipe],
-  imports: [CommonModule, TsRoutingModule],
+  declarations: [
+    TsComponent,
+    LengthPipeComponent,
+    LengthPipePipe,
+    SwipeComponent,
+  ],
+  imports: [CommonModule, TsRoutingModule, MatDatepickerModule, HammerModule],
 })
 export class TsModule {}

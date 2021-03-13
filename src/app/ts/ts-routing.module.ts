@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SwipeComponent } from '../swipe/swipe.component';
-import { TsComponent } from '../ts.component';
-import { LengthPipeComponent } from './length-pipe.component';
+import { TsComponent } from './ts.component';
+import { LengthPipeComponent } from './length-pipe/length-pipe.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { SwipeComponent } from './swipe/swipe.component';
 
 const routes: Routes = [
   { path: '', component: TsComponent },
@@ -12,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), MatDatepickerModule],
   exports: [RouterModule],
 })
 export class TsRoutingModule {}
