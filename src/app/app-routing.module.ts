@@ -20,6 +20,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'ng-basic',
+    loadChildren: () =>
+      import('./ng-basic/ng-basic-routing.module').then(
+        (m) => m.NgBasicRoutingModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'js',
   },
