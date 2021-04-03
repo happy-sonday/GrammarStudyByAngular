@@ -1,0 +1,26 @@
+<!-- <input
+  id="search"
+  type="input"
+  placeholder="검색하고 싶은 사용자 아이디를 입력해주세요"
+  #search
+  (keyup)="onKeyup(search.value)"
+/> -->
+
+<div class="main-container">
+  <input
+    id="search"
+    type="input"
+    placeholder="검색하고 싶은 사용자 아이디를 입력해주세요"
+  />
+  <mat-spinner
+    mode="indeterminate"
+    diameter="15"
+    value="40"
+    class="spinner"
+    id="loading"
+  ></mat-spinner>
+
+  <ul id="suggestLayer"></ul>
+</div>
+
+<!-- <mat-progress-spinner mode="indeterminate" id="loading"> </mat-progress-spinner> -->

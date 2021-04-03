@@ -6,7 +6,10 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from './ng/layout/layout.component';
 import { HeaderComponent } from './ng/header/header.component';
 import { FooterComponent } from './ng/footer/footer.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MypageGridComponent } from './ng/pages/mypage-grid/mypage-grid.component';
 import { FormsModule } from '@angular/forms';
@@ -16,9 +19,8 @@ import {
   HAMMER_GESTURE_CONFIG,
 } from '@angular/platform-browser';
 import { NgBasicModule } from './ng-basic/ng-basic.module';
+import { HttpClientModule } from '@angular/common/http';
 
-import { ItemComponent } from './ng-basic/item/item.component';
-import { MainComponent } from './ng-basic/main/main.component';
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any>{
     swipe: { direction: Hammer.DIRECTION_ALL },
@@ -39,6 +41,8 @@ export class MyHammerConfig extends HammerGestureConfig {
     MatIconModule,
     FormsModule,
     HammerModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

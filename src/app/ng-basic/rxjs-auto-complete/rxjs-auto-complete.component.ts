@@ -1,0 +1,72 @@
+import { query } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+
+import { from, Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { fromEvent } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  mergeAll,
+  mergeMap,
+  tap,
+} from 'rxjs/operators';
+
+@Component({
+  selector: 'app-rxjs-auto-complete',
+  templateUrl: './rxjs-auto-complete.component.html',
+  styleUrls: ['./rxjs-auto-complete.component.scss'],
+})
+export class RxjsAutoCompleteComponent implements OnInit {
+  value: number;
+
+  constructor(private _http: HttpClient) {}
+
+  ngOnInit(): void {
+    const user$ = fromEvent(document.getElementById('search'), 'keyup')
+      .pipe(
+        debounceTime(300), //300ms뒤에 데이터를 전달
+
+        map((event) => (<HTMLTextAreaElement>event.target).value),
+        distinctUntilChanged(), //동일한 데이터가 전달될 경우 이전과 다른데이터가 저달됙 전까지 데이터를 전달하지 않는 오퍼레이터
+        filter((query) => query.trim().length > 0),
+        tap(showLoading),
+
+        mergeMap((query) =>
+          this._http.get<any>(`https://api.github.com/users?q=${query}`)
+        ),
+        tap(hideLoading)
+      )
+      .subscribe((value) => drawLayer(value));
+    const layer = document.getElementById('suggestLayer');
+
+    function drawLayer(items: any) {
+      console.log(items);
+      layer.innerHTML = items
+        .map((user) => {
+          console.log(user);
+          return `<li class="user">
+          <img src="${user.avatar_url}" width="50px" height="50px" />
+          <p><a href="${user.html_url}" target="_blank">${user.login}</a></p>
+          </li>`;
+        })
+        .join('');
+    }
+
+    const loading = document.getElementById('loading');
+    function showLoading() {
+      loading.style.display = 'block';
+    }
+
+    function hideLoading() {
+      loading.style.display = 'none';
+    }
+  }
+
+  // onKeyup(event: any) {
+  //   this.user$ = of(event);
+  // }
+}
