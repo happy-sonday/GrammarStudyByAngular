@@ -22,17 +22,19 @@ import {
 })
 export class RxjsAutoCompleteComponent implements OnInit {
   value: number;
-
+  keyword: string;
   constructor(private _http: HttpClient) {}
 
   ngOnInit(): void {
     const layer = document.getElementById('suggestLayer');
-
+    let keyword;
     function drawLayer(items: any) {
-      console.log(items);
-      layer.innerHTML = items
+      const filteredArray = items.filter((user) =>
+        user.login.includes(keyword)
+      );
+      console.log(filteredArray);
+      layer.innerHTML = filteredArray
         .map((user) => {
-          console.log(user);
           return `<li class="user">
           <img src="${user.avatar_url}" width="50px" height="50px" />
           <p><a href="${user.html_url}" target="_blank">${user.login}</a></p>
@@ -63,9 +65,11 @@ export class RxjsAutoCompleteComponent implements OnInit {
       filter((query) => query.trim().length > 0),
       tap(showLoading),
 
-      mergeMap((query) =>
-        this._http.get<any>(`https://api.github.com/users?q=${query}`)
-      ),
+      mergeMap((query) => {
+        keyword = query;
+        return this._http.get<any>(`https://api.github.com/users?q=${query}`);
+      }),
+
       tap(hideLoading)
     );
 
