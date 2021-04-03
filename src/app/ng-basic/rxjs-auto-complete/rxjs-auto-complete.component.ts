@@ -26,21 +26,6 @@ export class RxjsAutoCompleteComponent implements OnInit {
   constructor(private _http: HttpClient) {}
 
   ngOnInit(): void {
-    const user$ = fromEvent(document.getElementById('search'), 'keyup')
-      .pipe(
-        debounceTime(300), //300ms뒤에 데이터를 전달
-
-        map((event) => (<HTMLTextAreaElement>event.target).value),
-        distinctUntilChanged(), //동일한 데이터가 전달될 경우 이전과 다른데이터가 저달됙 전까지 데이터를 전달하지 않는 오퍼레이터
-        filter((query) => query.trim().length > 0),
-        tap(showLoading),
-
-        mergeMap((query) =>
-          this._http.get<any>(`https://api.github.com/users?q=${query}`)
-        ),
-        tap(hideLoading)
-      )
-      .subscribe((value) => drawLayer(value));
     const layer = document.getElementById('suggestLayer');
 
     function drawLayer(items: any) {
@@ -64,6 +49,35 @@ export class RxjsAutoCompleteComponent implements OnInit {
     function hideLoading() {
       loading.style.display = 'none';
     }
+
+    //키보드 이벤트 옵저버블
+
+    const keyup$ = fromEvent(document.getElementById('search'), 'keyup').pipe(
+      debounceTime(300), //300ms뒤에 데이터를 전달
+      map((event) => (<HTMLTextAreaElement>event.target).value),
+      distinctUntilChanged() //동일한 데이터가 전달될 경우 이전과 다른데이터가 저달됙 전까지 데이터를 전달하지 않는 오퍼레이터
+    );
+
+    //유저 옵저버블
+    const user$ = keyup$.pipe(
+      filter((query) => query.trim().length > 0),
+      tap(showLoading),
+
+      mergeMap((query) =>
+        this._http.get<any>(`https://api.github.com/users?q=${query}`)
+      ),
+      tap(hideLoading)
+    );
+
+    //공백일시 결과 form reset
+    const reset$ = keyup$.pipe(
+      filter((query) => query.trim().length === 0),
+      tap((value) => (layer.innerHTML = ''))
+    );
+
+    user$.subscribe((data) => drawLayer(data));
+
+    reset$.subscribe();
   }
 
   // onKeyup(event: any) {
