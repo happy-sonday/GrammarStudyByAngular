@@ -27,6 +27,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'interactive',
+    loadChildren: () =>
+      import('./interactive/interactive.module').then(
+        (m) => m.InteractiveModule
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'js',
   },
