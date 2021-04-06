@@ -41,5 +41,7 @@ export class AddComponentCardComponent implements OnInit {
 
     const card1 = new Card(1, 'green');
     const card2 = new Card(2, 'blue');
+
+    
   }
 }

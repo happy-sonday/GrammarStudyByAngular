@@ -1,0 +1,16 @@
+.view {
+  overflow: hidden;
+}
+
+.container {
+  white-space: normal;
+  padding: 0px;
+  list-style: none;
+  font-size: 0;
+}
+
+.panel {
+  width: 100%;
+  min-height: 200px;
+  display: inline-block;
+}

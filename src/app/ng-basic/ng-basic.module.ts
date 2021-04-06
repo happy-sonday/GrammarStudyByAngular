@@ -11,6 +11,7 @@ import { RxjsTradingComponent } from './rxjs-trading/rxjs-trading.component';
 import { RxjsAutoCompleteComponent } from './rxjs-auto-complete/rxjs-auto-complete.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     RxjsLogisticsComponent,
     RxjsTradingComponent,
     RxjsAutoCompleteComponent,
+    CarouselComponent,
   ],
   imports: [CommonModule, NgBasicRoutingModule, MatProgressSpinnerModule],
 })
