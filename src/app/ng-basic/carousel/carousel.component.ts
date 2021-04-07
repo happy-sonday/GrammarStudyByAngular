@@ -26,9 +26,9 @@ export class CarouselComponent implements OnInit {
       end: SUPPORT_TOUCH ? 'touchend' : 'mouseup',
     };
 
-    const start$ = fromEvent($view, EVENTS.start);
-    const move$ = fromEvent($view, EVENTS.move);
-    const end$ = fromEvent($view, EVENTS.end);
+    // const start$ = fromEvent($view, EVENTS.start);
+    // const move$ = fromEvent($view, EVENTS.move);
+    // const end$ = fromEvent($view, EVENTS.end);
 
     /**드래그 이벤트 */
     //const drag$ = start$.pipe(map((start$) => move$));
@@ -43,9 +43,32 @@ export class CarouselComponent implements OnInit {
     //   mergeAll()
     // );
 
+    /** 드래그를 구현하기 위한 마우스 위치 차이 값 */
+    const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
+    const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
+    const end$ = fromEvent($view, EVENTS.end).pipe(toPos);
+
     /** start가 발생할 때마다 move$가 생성되므로 기존데이터를 종료하기 위해 switchMap으로 바꿈 */
     const drag$ = start$.pipe(
-      switchMap((start$) => move$.pipe(takeUntil(end$)))
+      switchMap((start: number) => {
+        return move$.pipe(
+          map((move: number) => {
+            move - start;
+          }, takeUntil(end$))
+        );
+      })
     );
+
+    function toPos(obs$) {
+      return obs$.pipe(
+        map((v: any) => {
+          SUPPORT_TOUCH ? v.changedTouches[0].pageX : v.pageX;
+        })
+      );
+    }
+
+    drag$.subscribe((distance) => {
+      console.log(`start 와 move 차이 값은 ${distance}`);
+    });
   }
 }
