@@ -28,24 +28,12 @@ export class CarouselComponent implements OnInit {
     };
 
     /**마우스 또는 터치 시작 위치 값 */
-    const start$ = fromEvent($view, EVENTS.start).pipe(
-      map((event) =>
-        SUPPORT_TOUCH
-          ? (event as TouchEvent).changedTouches[0].pageX
-          : (event as MouseEvent).pageX
-      )
-    );
+    const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
 
     start$.subscribe(console.log);
 
     /**마우스 또는 터치 hover시 x축 방향 위치 값 확인이 가능 */
-    const move$ = fromEvent($view, EVENTS.move).pipe(
-      map((event) =>
-        SUPPORT_TOUCH
-          ? (event as TouchEvent).changedTouches[0].pageX
-          : (event as MouseEvent).pageX
-      )
-    );
+    const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
     move$.subscribe(console.log);
     const end$ = fromEvent($view, EVENTS.end);
 
@@ -56,47 +44,15 @@ export class CarouselComponent implements OnInit {
       switchMap((start) => move$.pipe(takeUntil(end$)))
     );
 
-    //drag$.subscribe(console.log);
-
-    /**드래그 이벤트 */
-    //const drag$ = start$.pipe(map((start$) => move$));
-
-    /**end$이벤트가 발생하면 move$ Obsevable을 중지
-     * 전달된 첫번째 Observable 데이터가 발생하는 순간 대상 Observable 사앹를 종료처리하고 unscribe
-     */
-    // const drag$ = start$.pipe(map((start$) => move$.pipe(takeUntil(end$))));
-    /** 두 Observable을 평탕화 */
-    // const drag$ = start$.pipe(
-    //   map((start$) => move$.pipe(takeUntil(end$))),
-    //   mergeAll()
-    // );
-
-    /** 드래그를 구현하기 위한 마우스 위치 차이 값 */
-    // const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
-    // const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
-    // const end$ = fromEvent($view, EVENTS.end).pipe(toPos);
-
-    /** start가 발생할 때마다 move$가 생성되므로 기존데이터를 종료하기 위해 switchMap으로 바꿈 */
-    // const drag$ = start$.pipe(
-    //   switchMap((start: number) => {
-    //     return move$.pipe(
-    //       map((move: number) => {
-    //         move - start;
-    //       }, takeUntil(end$))
-    //     );
-    //   })
-    // );
-
-    // function toPos(obs$) {
-    //   return obs$.pipe(
-    //     map((v: any) => {
-    //       SUPPORT_TOUCH ? v.changedTouches[0].pageX : v.pageX;
-    //     })
-    //   );
-    // }
-
-    // drag$.subscribe((distance) => {
-    //   console.log(`start 와 move 차이 값은 ${distance}`);
-    // });
+    /** start와 ends 중복 map을 사용하여 자기자신을 반화하는 observable 함수를 콜백으로 사용 */
+    function toPos(obs$) {
+      return obs$.pipe(
+        map((v) =>
+          SUPPORT_TOUCH
+            ? (v as TouchEvent).changedTouches[0].pageX
+            : (v as MouseEvent).pageX
+        )
+      );
+    }
   }
 }
