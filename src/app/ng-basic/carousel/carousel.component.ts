@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { fromEvent } from 'rxjs';
+import { fromEvent, merge, Observable } from 'rxjs';
 import { map, mergeAll, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -13,8 +13,9 @@ export class CarouselComponent implements OnInit {
   ngOnInit(): void {
     const $view = document.getElementById('carousel');
 
-    const $container = document.querySelector('.container');
+    const $container = $view.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
+    console.log(PANEL_COUNT);
 
     const SUPPORT_TOUCH = 'ontouchstart' in window;
 
@@ -26,9 +27,36 @@ export class CarouselComponent implements OnInit {
       end: SUPPORT_TOUCH ? 'touchend' : 'mouseup',
     };
 
-    // const start$ = fromEvent($view, EVENTS.start);
-    // const move$ = fromEvent($view, EVENTS.move);
-    // const end$ = fromEvent($view, EVENTS.end);
+    /**마우스 또는 터치 시작 위치 값 */
+    const start$ = fromEvent($view, EVENTS.start).pipe(
+      map((event) =>
+        SUPPORT_TOUCH
+          ? (event as TouchEvent).changedTouches[0].pageX
+          : (event as MouseEvent).pageX
+      )
+    );
+
+    start$.subscribe(console.log);
+
+    /**마우스 또는 터치 hover시 x축 방향 위치 값 확인이 가능 */
+    const move$ = fromEvent($view, EVENTS.move).pipe(
+      map((event) =>
+        SUPPORT_TOUCH
+          ? (event as TouchEvent).changedTouches[0].pageX
+          : (event as MouseEvent).pageX
+      )
+    );
+    move$.subscribe(console.log);
+    const end$ = fromEvent($view, EVENTS.end);
+
+    /** 해당 container 위에 마우스를 올리면 console에서 위치값을 읽는다. */
+    const drag$ = start$.pipe(
+      //map((start) => move$.pipe(takeUntil(end$))),
+      //mergeAll()
+      switchMap((start) => move$.pipe(takeUntil(end$)))
+    );
+
+    //drag$.subscribe(console.log);
 
     /**드래그 이벤트 */
     //const drag$ = start$.pipe(map((start$) => move$));
@@ -44,31 +72,31 @@ export class CarouselComponent implements OnInit {
     // );
 
     /** 드래그를 구현하기 위한 마우스 위치 차이 값 */
-    const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
-    const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
-    const end$ = fromEvent($view, EVENTS.end).pipe(toPos);
+    // const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
+    // const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
+    // const end$ = fromEvent($view, EVENTS.end).pipe(toPos);
 
     /** start가 발생할 때마다 move$가 생성되므로 기존데이터를 종료하기 위해 switchMap으로 바꿈 */
-    const drag$ = start$.pipe(
-      switchMap((start: number) => {
-        return move$.pipe(
-          map((move: number) => {
-            move - start;
-          }, takeUntil(end$))
-        );
-      })
-    );
+    // const drag$ = start$.pipe(
+    //   switchMap((start: number) => {
+    //     return move$.pipe(
+    //       map((move: number) => {
+    //         move - start;
+    //       }, takeUntil(end$))
+    //     );
+    //   })
+    // );
 
-    function toPos(obs$) {
-      return obs$.pipe(
-        map((v: any) => {
-          SUPPORT_TOUCH ? v.changedTouches[0].pageX : v.pageX;
-        })
-      );
-    }
+    // function toPos(obs$) {
+    //   return obs$.pipe(
+    //     map((v: any) => {
+    //       SUPPORT_TOUCH ? v.changedTouches[0].pageX : v.pageX;
+    //     })
+    //   );
+    // }
 
-    drag$.subscribe((distance) => {
-      console.log(`start 와 move 차이 값은 ${distance}`);
-    });
+    // drag$.subscribe((distance) => {
+    //   console.log(`start 와 move 차이 값은 ${distance}`);
+    // });
   }
 }
