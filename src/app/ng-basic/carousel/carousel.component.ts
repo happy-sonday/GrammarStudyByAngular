@@ -20,6 +20,15 @@ export class CarouselComponent implements OnInit {
   ngOnInit(): void {
     const $view = document.getElementById('carousel');
 
+    /**드래그 시점과 거리차를 얻기위해 패널의 넓이를 구함,하지만 브라우저 크기가 바뀔때마다 넓이가 변겨오디므로 값들을 갱신해야 한다. */
+    /**하지만 다른 곳에서 쉽게 접근하고 변결할 수 있는 위허성이 있기때문에 외부에 노출된 변수 사용을 지양하자 */
+    //let viewWidth = $view.clientHeight;
+    /**window의 resize 이벤트를 Observable로 만들어 패널의 넓이를 전달받는다. */
+    const size$ = fromEvent(window, 'resize').pipe(
+      map((event) => $view.clientWidth)
+    );
+    //size$.subscribe(console.log);
+
     const $container = $view.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
     console.log(PANEL_COUNT);
@@ -57,9 +66,9 @@ export class CarouselComponent implements OnInit {
       })
     );
 
-    drag$.subscribe((distance) =>
-      console.log('start$ 와 move$의 차이 값', distance)
-    );
+    // drag$.subscribe((distance) =>
+    //   console.log('start$ 와 move$의 차이 값', distance)
+    // );
 
     /** 캐러셀에서 드래그 이후 마우스를 버튼을 떼는 행위를 드롭이라고 한다. 반드시 마우스 버튼을 딱한번 떼었을 때를 이야기한다. */
     /**take 첫번째 인자로 전달하는 데이터의 개수를 전달받아 해당 개수째에서 상태를 종료처리하고 자동으로 구독 해제한다. 동일하게 first() 오펄이트 사용이 가능 */
