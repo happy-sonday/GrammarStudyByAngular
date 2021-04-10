@@ -1,17 +1,15 @@
 .view {
   overflow: hidden;
-  background: gray;
 }
 
-.container {
-  white-space: normal;
+.view .container {
+  white-space: nowrap;
   padding: 0px;
   list-style: none;
   font-size: 0;
-  display: flex;
 }
 
-.panel {
+.view .panel {
   width: 100%;
   min-height: 200px;
   display: inline-block;

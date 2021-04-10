@@ -34,11 +34,12 @@ export class CarouselComponent implements OnInit {
       startWith(0),
       map((event) => $view.clientWidth)
     );
-    size$.subscribe(console.log);
+
+    const THRESHOLD = 30;
+    const DEFAULT_DURATION = 300;
 
     const $container = $view.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
-    console.log(PANEL_COUNT);
 
     const SUPPORT_TOUCH = 'ontouchstart' in window;
 
@@ -71,7 +72,8 @@ export class CarouselComponent implements OnInit {
           takeUntil(end$)
         );
       }),
-      tap((v) => console.log('drag$', v))
+      //tap((v) => console.log('drag$', v))
+      share()
     );
 
     // drag$.subscribe((distance) =>
@@ -91,15 +93,21 @@ export class CarouselComponent implements OnInit {
         );
       }),
       /**마우스를 뗐을때(드롭)이 발생하는 시점의 패널의 넓이값을 전달 */
-      withLatestFrom(size$), //[마우스를 뗏을때 위치, 브라우저에서의 패널 넓이]
-      tap((v) => console.log('drag$', v)),
-      share()
+      withLatestFrom(size$) //[마우스를 뗏을때 위치, 브라우저에서의 패널 넓이]
+      //tap((v) => console.log('drag$', v)),
     );
 
     //drag$ Observable(Cold Observable)은 완전한 독립영여긍 ㄹ갖고 있어서 Observaer에게 동일한데이터를 전달한다.
     //따라서 드래그와 별도의 데이터가 전달되고 드롭인 경우에도 별도의 데이터가 전달되어 데이터가 불필요하게 중복 전달된다.
 
-    drop$.subscribe(console.log);
+    //drop$.subscribe(console.log);
+
+    const carousel$ = merge(drag$, drop$);
+    carousel$.subscribe((v) => console.log('캐러셀 데이터확인', v));
+
+    function translate(posX) {
+      ($container as HTMLElement).style.transform = `translate3d(${posX}px, 0, 0)`;
+    }
 
     /** start와 ends 중복 map을 사용하여 자기자신을 반화하는 observable 함수를 콜백으로 사용 */
     function toPos(obs$) {
