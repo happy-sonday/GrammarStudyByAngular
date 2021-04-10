@@ -1,13 +1,17 @@
+import { TemplateBindingParseResult } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { fromEvent, merge, Observable } from 'rxjs';
 import {
   first,
   map,
   mergeAll,
+  share,
   startWith,
   switchMap,
   take,
   takeUntil,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 @Component({
@@ -48,7 +52,7 @@ export class CarouselComponent implements OnInit {
 
     /**마우스 또는 터치 시작 위치 값 */
     const start$ = fromEvent($view, EVENTS.start).pipe(toPos);
-    //start$.subscribe(console.log);
+    // start$.subscribe(console.log);
 
     /**마우스 또는 터치 hover시 x축 방향 위치 값 확인이 가능 */
     const move$ = fromEvent($view, EVENTS.move).pipe(toPos);
@@ -66,7 +70,8 @@ export class CarouselComponent implements OnInit {
           map((move: number) => move - start),
           takeUntil(end$)
         );
-      })
+      }),
+      tap((v) => console.log('drag$', v))
     );
 
     // drag$.subscribe((distance) =>
@@ -78,8 +83,24 @@ export class CarouselComponent implements OnInit {
     /** 참고 직접적으로 구독을 해제(unscribe)하지 말고 takeUntil,take,first 오퍼레이터를 이용하여 자동으로 구독해제한다. */
     //const drop$ = drag$.pipe(map((drag) => end$.pipe(take(1))));
 
-    const drop$ = drag$.pipe(switchMap((drag) => end$.pipe(first())));
+    const drop$ = drag$.pipe(
+      switchMap((drag) => {
+        return end$.pipe(
+          map((event) => drag),
+          first()
+        );
+      }),
+      /**마우스를 뗐을때(드롭)이 발생하는 시점의 패널의 넓이값을 전달 */
+      withLatestFrom(size$), //[마우스를 뗏을때 위치, 브라우저에서의 패널 넓이]
+      tap((v) => console.log('drag$', v)),
+      share()
+    );
+
+    //drag$ Observable(Cold Observable)은 완전한 독립영여긍 ㄹ갖고 있어서 Observaer에게 동일한데이터를 전달한다.
+    //따라서 드래그와 별도의 데이터가 전달되고 드롭인 경우에도 별도의 데이터가 전달되어 데이터가 불필요하게 중복 전달된다.
+
     drop$.subscribe(console.log);
+
     /** start와 ends 중복 map을 사용하여 자기자신을 반화하는 observable 함수를 콜백으로 사용 */
     function toPos(obs$) {
       return obs$.pipe(
