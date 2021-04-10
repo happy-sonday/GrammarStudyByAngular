@@ -4,6 +4,7 @@ import {
   first,
   map,
   mergeAll,
+  startWith,
   switchMap,
   take,
   takeUntil,
@@ -25,9 +26,11 @@ export class CarouselComponent implements OnInit {
     //let viewWidth = $view.clientHeight;
     /**window의 resize 이벤트를 Observable로 만들어 패널의 넓이를 전달받는다. */
     const size$ = fromEvent(window, 'resize').pipe(
+      /**페이지 로딩할때 뷰의 넓이 데이터가 전달되지 않아 startWith를 사용하여 초기값 전달 */
+      startWith(0),
       map((event) => $view.clientWidth)
     );
-    //size$.subscribe(console.log);
+    size$.subscribe(console.log);
 
     const $container = $view.querySelector('.container');
     const PANEL_COUNT = $container.querySelectorAll('.panel').length;
