@@ -1,0 +1,45 @@
+이미지 크기: 683*384
+<h3>background-size</h3>
+
+<div class="rectangle-container">
+  <!-- 이미지가 container 높이 200px에 묶여있기때문에 원본 비율을 종횡비를 유지하며 scale이 작아진다
+      img에서 width100%나 flex:1을 주게되면 height내에서 옆으로 100%꽉채우도로 늘려버린다 -->
+
+  <!-- flex:1 또는 width:100% 에서 img 태그에 object-fit을 적용한다. -->
+  <!-- object-fit: cover는 컨테이너 크기에 맞춰 원본 종횡비를 유지하되 컨테이너를 크기를 벗어나는 부분은
+        trim으로 잘라낸다 -->
+
+  <div class="div-img-container"></div>
+</div>
+
+<div class="squre-container">
+  <div class="squre">
+    <div class="item1"></div>
+  </div>
+  <div class="squre">
+    <div class="item2"></div>
+  </div>
+  <div class="squre">
+    <img class="item3" />
+  </div>
+</div>
+
+<h3>object-fit</h3>
+<div class="rectangle-container">
+  <img
+    class="bts21-banner"
+    src="assets/img/css-practice/rectangle-banner-bts21.jpg"
+  />
+</div>
+
+<div class="squre-container">
+  <div class="squre">
+    <div class="item"></div>
+  </div>
+  <div class="squre">
+    <div class="item"></div>
+  </div>
+  <div class="squre">
+    <div class="item"></div>
+  </div>
+</div>

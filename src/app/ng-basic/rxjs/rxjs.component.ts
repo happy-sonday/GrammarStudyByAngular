@@ -1,6 +1,6 @@
 import { Position } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { fromEvent, interval, pipe } from 'rxjs';
+import { fromEvent, interval, pipe, range, timer } from 'rxjs';
 import { from } from 'rxjs';
 import { of } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -30,6 +30,51 @@ export class RxjsComponent implements OnInit {
     //this.testConcatAll();
     //this.testMergeAll();
     //this.testMergeMap();
+
+    //this.isEvenTest();
+    //this.basicMergeMap();
+    this.arrayMergeMap();
+  }
+
+  basicMap(): void {
+    const source$ = from([1, 2, 3, 4, 5]);
+    const resultSources$ = source$.pipe(
+      map((x) => x + 1),
+      map((x) => x * 2)
+    );
+
+    resultSources$.subscribe((x) => console.log(x));
+  }
+
+  isEvenTest(): void {
+    const source$ = range(0, 5).pipe(map((x) => ({ x, isEven: x % 2 === 0 })));
+
+    source$.subscribe((res) =>
+      console.log(`${res.x}는 ${res.isEven ? '짝수' : '홀수'} 입니다.`)
+    );
+  }
+
+  basicMergeMap(): void {
+    const request = [
+      timer(Math.floor(Math.random() * 2000)).pipe(map((value) => 'req1')),
+      timer(Math.floor(Math.random() * 1000)).pipe(map((value) => 'req2')),
+      timer(Math.floor(Math.random() * 1500)).pipe(map((value) => 'req3')),
+    ];
+
+    //range에 대한 범위 옵접버블의 결과값을 발행하여x에 넣고 이중으로 또 구독을해서 request 배열에 인덱스값을 넣어 log를 출력하고 있다
+    // range(0, 3).subscribe((x) =>
+    //   request[x].subscribe((req) => console.log(`response from ${req}`))
+    // );
+
+    range(0, 3)
+      .pipe(mergeMap((x) => request[x]))
+      .subscribe((x) => console.log(`response from ${x}`));
+  }
+
+  arrayMergeMap(): void {
+    range(0, 3)
+      .pipe(mergeMap((x) => [x + 1, x + 2, x + 3, x + 4]))
+      .subscribe((value) => console.log(`current value: ${value}`));
   }
 
   //next 데이터 스트림 처리 .필수
