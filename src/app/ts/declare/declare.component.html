@@ -1,0 +1,12 @@
+<form [formGroup]="frm">
+  이름: <input formControlName="name" #name /> 전화번호 :<input
+    #phone
+    formControlName="phone"
+  />
+  <!-- <button (click)="addMember()">추가하기</button> -->
+  <button (click)="addMember(name.value, phone.value)">추가하기</button>
+</form>
+
+<ul class="list-container" *ngFor="let item of list">
+  <li>{{ item.name }} / {{ item.phone }}</li>
+</ul>

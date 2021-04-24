@@ -10,6 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { TsRoutingModule } from './ts-routing.module';
 import { SwipeComponent } from './swipe/swipe.component';
 import { HammerModule } from '@angular/platform-browser';
+import { DeclareComponent } from './declare/declare.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,14 @@ import { HammerModule } from '@angular/platform-browser';
     LengthPipeComponent,
     LengthPipePipe,
     SwipeComponent,
+    DeclareComponent,
   ],
-  imports: [CommonModule, TsRoutingModule, MatDatepickerModule, HammerModule],
+  imports: [
+    CommonModule,
+    TsRoutingModule,
+    MatDatepickerModule,
+    HammerModule,
+    ReactiveFormsModule,
+  ],
 })
 export class TsModule {}
