@@ -12,6 +12,7 @@ import { SwipeComponent } from './swipe/swipe.component';
 import { HammerModule } from '@angular/platform-browser';
 import { DeclareComponent } from './declare/declare.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FncComponent } from './fnc/fnc.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     LengthPipePipe,
     SwipeComponent,
     DeclareComponent,
+    FncComponent,
   ],
   imports: [
     CommonModule,

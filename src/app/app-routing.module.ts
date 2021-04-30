@@ -38,6 +38,10 @@ const routes: Routes = [
     loadChildren: () => import('./css/css.module').then((m) => m.CssModule),
   },
   {
+    path: 'scss',
+    loadChildren: () => import('./scss/scss.module').then((m) => m.ScssModule),
+  },
+  {
     path: '**',
     redirectTo: 'js',
   },

@@ -1,0 +1,39 @@
+@mixin colors($text, $background, $border) {
+  color: $text;
+  background: $background;
+  border: 1px solid $border;
+}
+
+$mains: #999999 #f3f4f9 #fd5d05;
+
+.primary {
+  @include colors($mains...);
+}
+
+$secondary: #ffffff #1d2772 #eeac3f;
+
+.secondary {
+  @include colors($secondary...);
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+@mixin flex {
+  .container {
+    display: flex;
+    flex-direction: column;
+    @content;
+  }
+}
+
+@include flex {
+  .item {
+    background: rosybrown;
+    margin-bottom: 10px;
+    border: 1px solid royalblue;
+    height: 10px;
+  }
+}

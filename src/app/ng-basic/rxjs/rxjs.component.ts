@@ -33,7 +33,26 @@ export class RxjsComponent implements OnInit {
 
     //this.isEvenTest();
     //this.basicMergeMap();
-    this.arrayMergeMap();
+    //this.basicMap();
+    //this.basicMergeMap()
+
+    this.piperbleEx();
+  }
+
+  /** 파이퍼블 예제 1 */
+  piperbleEx() {
+    range(1, 10)
+      .pipe(
+        filter((value) => {
+          console.log(`첫번째 인자값 : ${value}`);
+          return value % 2 == 0;//1부터 10까지의 값을 순회하면서 짝수번째만 반환하여 map 오퍼레이터를 실행
+        }),
+        map((value) => {
+          console.log(`두번째 인자값 : ${value}`);
+          return value + 1;
+        })
+      )
+      .subscribe(console.log);
   }
 
   basicMap(): void {
@@ -56,9 +75,9 @@ export class RxjsComponent implements OnInit {
 
   basicMergeMap(): void {
     const request = [
-      timer(Math.floor(Math.random() * 2000)).pipe(map((value) => 'req1')),
-      timer(Math.floor(Math.random() * 1000)).pipe(map((value) => 'req2')),
-      timer(Math.floor(Math.random() * 1500)).pipe(map((value) => 'req3')),
+      timer(Math.floor(Math.random() * 2000)).pipe(map(() => 'req1')),
+      timer(Math.floor(Math.random() * 1000)).pipe(map(() => 'req2')),
+      timer(Math.floor(Math.random() * 1500)).pipe(map(() => 'req3')),
     ];
 
     //range에 대한 범위 옵접버블의 결과값을 발행하여x에 넣고 이중으로 또 구독을해서 request 배열에 인덱스값을 넣어 log를 출력하고 있다
