@@ -12,6 +12,8 @@ import { RxjsAutoCompleteComponent } from './rxjs-auto-complete/rxjs-auto-comple
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CarouselComponent } from './carousel/carousel.component';
+import { RxjsShareReplayComponent } from './rxjs-share-replay/rxjs-share-replay.component';
+import { RxjsInmemoryComponent } from './rxjs-inmemory/rxjs-inmemory.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     RxjsTradingComponent,
     RxjsAutoCompleteComponent,
     CarouselComponent,
+    RxjsShareReplayComponent,
+    RxjsInmemoryComponent,
   ],
   imports: [CommonModule, NgBasicRoutingModule, MatProgressSpinnerModule],
 })
