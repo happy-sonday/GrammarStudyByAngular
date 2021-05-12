@@ -1,0 +1,28 @@
+.main-container {
+  display: flex;
+  overflow: auto;
+  padding-top: 16px;
+}
+.preview-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.img-box {
+  width: 80px;
+  height: 80px;
+  background: rosybrown;
+  border-radius: 4px;
+  margin-left: 10px;
+  position: relative;
+}
+.btn-remove {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: black;
+  position: absolute;
+  right: 0;
+  top: -10px;
+}
