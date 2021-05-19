@@ -5,9 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class LengthPipePipe implements PipeTransform {
   outStr: string;
-  transform(input: string, replacement: string) {
-    if (input.length > 12) {
-      this.outStr = input.substring(0, 11);
+  transform(input: string, limit: number, replacement: string) {
+    if (input.length > limit) {
+      this.outStr = input.substring(0, input.length + 1);
       return this.outStr + replacement;
     }
   }
